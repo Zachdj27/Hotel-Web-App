@@ -1,10 +1,12 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
+from dotenv import load_dotenv
 
 # set up connection with database
-DATABASE_URL = "postgresql://postgres:$QLM0n$t@@localhost:5432/ProjetCSI2532"
-
-engine = create_engine(DATABASE_URL)
+#Il faut d'abord créer un fichier .env et écrire:
+#DATABASE_URL=postgresql://your_username:your_password@your_host:your_port/your_db_name
+load_dotenv()
+engine = create_engine("DATABASE_URL")
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
