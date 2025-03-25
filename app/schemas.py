@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from datetime import date
-from typing import Optional
+from typing import List, Optional
 
 #Schemas for API Requests
 class ChaineHoteliereBase(BaseModel):
@@ -38,3 +38,32 @@ class BookingBase(BaseModel):
     entry_date: date
     leaving_date: date
     status: str
+
+class ClientBase(BaseModel):
+    nom_complet: str
+    adresse: str
+
+class ClientCreate(ClientBase):
+    pass
+
+class Client(ClientBase):
+    client_id: int
+
+    class Config:
+        orm_mode = True
+
+class RoomBase(BaseModel):
+    numero_chambre: str
+    prix: float
+    capacite: int
+    hotel_id: int
+
+class BookingBase(BaseModel):
+    client_id: int
+    room_id: int
+    entry_date: str
+    leaving_date: str
+    status: str
+
+class BookingCreate(BookingBase):
+    pass
