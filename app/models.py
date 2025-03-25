@@ -46,6 +46,7 @@ class Chambre(Base):
     vue = Column(String(50))
     etendre = Column(Boolean, default=False)
     dommages = Column(Text)
+    superficie = Column(Integer, CheckConstraint("superficie > 0"))
 
     hotel = relationship("Hotel", back_populates="chambres")
     bookings = relationship("Booking", back_populates="chambre")

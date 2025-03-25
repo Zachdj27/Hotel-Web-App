@@ -29,6 +29,7 @@ CREATE TABLE Chambre (
     commodites TEXT,
     capacite INT CHECK (capacite > 0),
     vue VARCHAR(50),
+    superficie INT CHECK (superficie > 0),
     etendre BOOLEAN DEFAULT FALSE,
     dommages TEXT
 );
@@ -99,7 +100,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER prevent_double_booking
-BEFORE INSERT OR UPDATE ON Booking
+BEFORE INSERT ON Booking
 FOR EACH ROW
 EXECUTE FUNCTION check_room_availability();
 

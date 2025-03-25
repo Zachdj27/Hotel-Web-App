@@ -18,6 +18,7 @@ def get_available_rooms(
     start_date: str,
     end_date: str,
     capacity: int,
+    superficie: int,
     price: Optional[float] = None,
     hotel_id: Optional[int] = None
 ) -> list:
@@ -28,6 +29,9 @@ def get_available_rooms(
     # query to filter by room capacity, price, and hotel
     query = db.query(models.Chambre).filter(
         models.Chambre.capacite >= capacity,  
+    )
+    query = db.query(models.Chambre).filter(
+        models.Chambre.superficie >= superficie,  
     )
 
     if price is not None:
@@ -56,10 +60,11 @@ def create_booking(db: Session, booking: schemas.BookingCreate):
 
 def update_booking_status(db: Session, booking_id: int, status: str):
     db_booking = db.query(models.Booking).filter(models.Booking.booking_id == booking_id).first()
-    if db_booking:
-        db_booking.status = status
-        db.commit()
-        db.refresh(db_booking)
+    if not db_booking:
+        return None
+    db_booking.status = status
+    db.commit()
+    db.refresh(db_booking)
     return db_booking
 
 def check_room_availability(db: Session, room_id: int, entry_date: str, leaving_date: str):

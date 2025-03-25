@@ -27,6 +27,7 @@ class ChambreBase(BaseModel):
     prix: float
     commodites: Optional[str]
     capacite: int
+    superficie: int
     vue: Optional[str]
     etendre: Optional[bool] = False
     dommages: Optional[str]
