@@ -15,7 +15,9 @@ CREATE TABLE Hotel (
     adresse TEXT,
     numero_telephone VARCHAR(20),
     email VARCHAR(100),
-    classement INT CHECK (classement BETWEEN 1 AND 5)
+    classement INT CHECK (classement BETWEEN 1 AND 5),
+    pays VARCHAR(255),
+    zone VARCHAR(255) --région/ville où se situe l'hôtel
 );
 
 --  Table Chambre
@@ -34,19 +36,12 @@ CREATE TABLE Chambre (
 -- Table Employee
 CREATE TABLE Employee (
     employee_id SERIAL PRIMARY KEY,
+    hotel_id INT REFERENCES Hotel(hotel_id) ON DELETE CASCADE, --hôtel où l'employé travaille
     NAS VARCHAR(20) UNIQUE NOT NULL,
     nom_complet VARCHAR(255) NOT NULL,
     adresse TEXT,
     poste VARCHAR(100)
 );
-
---  Relation "TravailleDans" (N:M entre Employee et Hotel)
-CREATE TABLE TravailleDans (
-    employee_id INT REFERENCES Employee(employee_id) ON DELETE CASCADE,
-    hotel_id INT REFERENCES Hotel(hotel_id) ON DELETE CASCADE,
-    PRIMARY KEY (employee_id, hotel_id)
-);
-
 
 --  Table Client
 CREATE TABLE Client (
@@ -61,35 +56,20 @@ CREATE TABLE Client (
 CREATE TABLE Booking (
     booking_id SERIAL PRIMARY KEY,
     client_id INT REFERENCES Client(client_id) ON DELETE CASCADE,
-    r_date DATE NOT NULL,
+    room_id INT REFERENCES Chambre(room_id) ON DELETE CASCADE,
+    entry_date DATE NOT NULL, --Day when they check in
+    leaving_date DATE NOT NULL, --Checkout day
     status VARCHAR(20) CHECK (status IN ('Réservé', 'Confirmé', 'Annulé'))
 );
 
---  Relation "Booking_Chambre" (N:M entre Booking et Chambre)
-CREATE TABLE Booking_Chambre (
-    booking_id INT REFERENCES Booking(booking_id) ON DELETE SET NULL,
-    room_id INT REFERENCES Chambre(room_id) ON DELETE CASCADE,
-    PRIMARY KEY (booking_id, room_id),
-    UNIQUE (booking_id, room_id)
-);
 
 --  Table Location (Lorsqu’un client enregistre sa réservation)
 CREATE TABLE Location (
     location_id SERIAL PRIMARY KEY,
     booking_id  INT  UNIQUE NULL, --Permettre location sans réservation
-    client_id INT REFERENCES Client(client_id) ON DELETE CASCADE,
+    client_id INT NOT NULL REFERENCES Client(client_id) ON DELETE CASCADE,
     l_date DATE DEFAULT CURRENT_DATE,
 	FOREIGN KEY(booking_id) REFERENCES Booking(booking_id) ON DELETE CASCADE
-);
-
-
---  Table Paiement (Transaction enregistrée par un employé)
-CREATE TABLE Paiement (
-    paiement_id SERIAL PRIMARY KEY,
-    location_id INT REFERENCES Location(location_id) ON DELETE CASCADE,
-    employee_id INT REFERENCES Employee(employee_id) ON DELETE CASCADE,
-    montant DECIMAL(10,2) NOT NULL,
-    date_paiement TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 --  Index pour optimiser les requêtes SQL
@@ -102,19 +82,24 @@ CREATE OR REPLACE FUNCTION check_room_availability()
 RETURNS TRIGGER AS $$
 BEGIN
     IF EXISTS (
-        SELECT 1 FROM Booking_Chambre bc
-        JOIN Booking b ON bc.booking_id = b.booking_id
-        WHERE bc.room_id = NEW.room_id 
-        AND b.r_date = (SELECT r_date FROM Booking WHERE booking_id = NEW.booking_id)
+        SELECT 1 
+        FROM Booking 
+        WHERE room_id = NEW.room_id
+        AND status IN ('Réservé', 'Confirmé')
+        AND (
+            NEW.entry_date BETWEEN entry_date AND leaving_date
+            OR NEW.leaving_date BETWEEN entry_date AND leaving_date
+            OR (NEW.entry_date <= entry_date AND NEW.leaving_date >= leaving_date) 
+        )
     ) THEN
-        RAISE EXCEPTION 'Cette chambre est déjà réservée à cette date.';
+        RAISE EXCEPTION 'Cette chambre est déjà réservée pour ces dates.';
     END IF;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER prevent_double_booking
-BEFORE INSERT ON Booking_Chambre
+BEFORE INSERT OR UPDATE ON Booking
 FOR EACH ROW
 EXECUTE FUNCTION check_room_availability();
 
