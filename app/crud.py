@@ -2,13 +2,20 @@ from sqlalchemy.orm import Session
 from . import models, schemas
 from datetime import datetime
 from typing import Optional
+from datetime import date
 
 def create_client(db: Session, client: schemas.ClientCreate):
-    db_client = models.Client(**client.dict())
+    db_client = models.Client(
+        NAS=client.NAS,
+        nom_complet=client.nom_complet,
+        adresse=client.adresse,
+        date_enregistrement=date.today()  #today
+    )
     db.add(db_client)
     db.commit()
     db.refresh(db_client)
     return db_client
+
 
 def get_client(db: Session, client_id: int):
     return db.query(models.Client).filter(models.Client.client_id == client_id).first()

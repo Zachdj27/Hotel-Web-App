@@ -69,7 +69,7 @@ class Client(Base):
     __tablename__ = "client"
 
     client_id = Column(Integer, primary_key=True, autoincrement=True)
-    NAS = Column(String(20), unique=True, nullable=False)
+    NAS = Column(String(9), unique=True, nullable=False, name="nas")
     nom_complet = Column(String(255), nullable=False)
     adresse = Column(Text)
     date_enregistrement = Column(Date)

@@ -41,8 +41,10 @@ class BookingBase(BaseModel):
     status: str
 
 class ClientBase(BaseModel):
+    NAS: str
     nom_complet: str
     adresse: str
+    date_enregistrement: Optional[date] = None
 
 class ClientCreate(ClientBase):
     pass
