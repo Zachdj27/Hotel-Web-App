@@ -1,21 +1,26 @@
-from fastapi import FastAPI, Depends, HTTPException
-from sqlalchemy.orm import Session
-from app import models, crud, schemas, database
-from typing import Optional
-
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from app.routes import rooms, bookings, clients
+from app.database import Base, engine
 
 app = FastAPI()
 
-# Dependency to get the DB session
-def get_db():
-    db = database.SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-    
+# for frontend communication
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-    
+app.include_router(rooms.router)
+app.include_router(bookings.router)
+app.include_router(clients.router)
+
+#create tables if they don’t exist
+Base.metadata.create_all(bind=engine)
+
     
 # @app.get("/test_available_rooms/")
 # def test_available_rooms(
