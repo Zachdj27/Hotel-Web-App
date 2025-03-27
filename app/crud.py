@@ -38,7 +38,7 @@ def get_available_rooms(
     query = db.query(models.Chambre).filter(
         models.Chambre.capacite >= capacity,  
     )
-    query = db.query(models.Chambre).filter(
+    query = query.filter(
         models.Chambre.superficie >= superficie,  
     )
 

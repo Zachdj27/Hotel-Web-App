@@ -9,7 +9,7 @@ export default function Home() {
     capacity: "",
     superficie: "",
     price: "",
-    hotel_name: ""  
+    hotel_id: ""  
   });
 
   const [rooms, setRooms] = useState([]);
@@ -29,9 +29,17 @@ export default function Home() {
   const searchRooms = async () => {
     setRooms([]);
     try {
+      const params = { ...searchParams };
+  
+      //remove hotel_id if it's empty
+      if (!params.hotel_id) {
+        delete params.hotel_id;
+      }
+  
       const response = await axios.get("http://127.0.0.1:8000/rooms/available/", {
-        params: searchParams
+        params,
       });
+  
       setRooms(response.data.available_rooms);
       console.log("API Response:", response.data);
     } catch (error) {
@@ -86,14 +94,14 @@ export default function Home() {
 
         {/* Hotel Dropdown */}
         <select 
-          name="hotel_name" 
-          value={searchParams.hotel_name} 
+          name="hotel_id" 
+          value={searchParams.hotel_id} 
           onChange={handleChange} 
           className="input-field"
         >
           <option value="">Select a Hotel</option>
           {hotels.map((hotel) => (
-            <option key={hotel.id} value={hotel.name}>
+            <option key={hotel.id} value={hotel.id}>
               {hotel.name}
             </option>
           ))}
