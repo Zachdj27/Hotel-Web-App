@@ -121,6 +121,7 @@ WHEN (NEW.status = 'Confirmé')
 EXECUTE FUNCTION convert_booking_to_location();
 
 -- Creation de Vue
+--Nombre de chambre par zone
 
 CREATE OR REPLACE VIEW Chambre_par_zone AS
 SELECT 
@@ -139,4 +140,22 @@ WHERE NOT EXISTS (
     )
 )
 GROUP BY h.zone;
+
+--capacité total d'un hotel (Seulement les chambres disponibles)
+CREATE OR REPLACE VIEW Capacite_hotel_disponible AS 
+SELECT 
+    h.hotel_id,
+    h.name, 
+    SUM(c.capacite) AS capacite_total_disponible
+FROM Chambre c
+JOIN Hotel h ON c.hotel_id = h.hotel_id
+WHERE NOT EXISTS (
+    SELECT 1 
+    FROM Booking b
+    WHERE b.room_id = c.room_id 
+    AND b.status IN ('Confirmé', 'Réservé')
+    AND CURRENT_DATE BETWEEN b.entry_date AND b.leaving_date
+)
+GROUP BY h.hotel_id, h.name;
+
 
