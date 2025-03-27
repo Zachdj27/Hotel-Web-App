@@ -119,3 +119,24 @@ AFTER UPDATE ON Booking
 FOR EACH ROW
 WHEN (NEW.status = 'Confirmé')
 EXECUTE FUNCTION convert_booking_to_location();
+
+-- Creation de Vue
+
+CREATE OR REPLACE VIEW Chambre_par_zone AS
+SELECT 
+    h.zone, 
+    COUNT(c.room_id) AS nombre_chambres_disponibles
+FROM Chambre c
+JOIN Hotel h ON c.hotel_id = h.hotel_id
+WHERE NOT EXISTS (
+    SELECT 1 
+    FROM Booking b
+    WHERE b.room_id = c.room_id 
+    AND (b.status = 'Confirmé'
+    OR b.status ='Réservé')
+    AND (
+        CURRENT_DATE BETWEEN b.entry_date AND b.leaving_date
+    )
+)
+GROUP BY h.zone;
+
