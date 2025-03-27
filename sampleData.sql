@@ -1,11 +1,11 @@
 -- Hotel Chains 
-INSERT INTO Chaine_hoteliere (name, adresse_bureau, nombre_hotels, email)
+INSERT INTO Chaine_hoteliere (hotel_id, name, adresse_bureau, nombre_hotels, email)
 VALUES
-('Elite Suites', '123 Prestige Ave, New York, USA', 8, 'contact@elitesuites.com'),
-('Budget Stay', '456 Affordable St, Toronto, Canada', 8, 'info@budgetstay.com'),
-('Green Getaways', '789 Eco Blvd, Miami, USA', 8, 'support@greengeaways.com'),
-('Royal Resorts', '101 Royal Rd, Cancun, Mexico', 8, 'hello@royalresorts.com'),
-('Coastal Escapes', '202 Beachfront Dr, San Diego, USA', 8, 'reservations@coastalescapes.com');
+(1,'Elite Suites', '123 Prestige Ave, New York, USA', 8, 'contact@elitesuites.com'),
+(2,'Budget Stay', '456 Affordable St, Toronto, Canada', 8, 'info@budgetstay.com'),
+(3,'Green Getaways', '789 Eco Blvd, Miami, USA', 8, 'support@greengeaways.com'),
+(4,'Royal Resorts', '101 Royal Rd, Cancun, Mexico', 8, 'hello@royalresorts.com'),
+(5,'Coastal Escapes', '202 Beachfront Dr, San Diego, USA', 8, 'reservations@coastalescapes.com');
 
 -- Hotels (modified to fit the new table structure)
 -- Chain 1: Elite Suites (New York, USA)

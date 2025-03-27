@@ -1,0 +1,84 @@
+/* styles.css */
+
+/* Container */
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+  
+  /* Title */
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2d3748;
+    margin-bottom: 24px;
+  }
+  
+  /* Search Form */
+  .form-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    background-color: white;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 24px;
+  }
+  
+  .input-field {
+    border: 1px solid #cbd5e0;
+    padding: 8px;
+    border-radius: 8px;
+    width: 100%;
+    font-size: 1rem;
+  }
+  
+  .input-field:focus {
+    outline: none;
+    border-color: #3182ce;
+    box-shadow: 0 0 0 2px rgba(56, 173, 255, 0.3);
+  }
+  
+  /* Search Button */
+  .search-button {
+    width: 100%;
+    background-color: #2b6cb0;
+    color: white;
+    font-weight: 600;
+    padding: 12px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .search-button:hover {
+    background-color: #2b6cb0;
+  }
+  
+  /* Available Rooms */
+  .available-rooms {
+    margin-top: 24px;
+  }
+  
+  .room-card {
+    background-color: white;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .room-card h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #4a5568;
+  }
+  
+  .room-card p {
+    color: #718096;
+  }
+  
+  .no-rooms {
+    color: #a0aec0;
+  }
+  

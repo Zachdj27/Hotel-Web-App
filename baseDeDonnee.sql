@@ -9,7 +9,7 @@ CREATE TABLE Chaine_hoteliere (
 
 --  Table Hôtel
 CREATE TABLE Hotel (
-    hotel_id SERIAL PRIMARY KEY,
+    hotel_id INT PRIMARY KEY,
     chain_id INT REFERENCES Chaine_hoteliere(chain_id) ON DELETE CASCADE,
     name VARCHAR(255) NOT NULL,
     adresse TEXT,
