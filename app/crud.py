@@ -3,6 +3,7 @@ from . import models, schemas
 from datetime import datetime
 from typing import Optional
 from datetime import date
+from sqlalchemy import text
 
 def create_client(db: Session, client: schemas.ClientCreate):
     db_client = models.Client(
@@ -83,11 +84,11 @@ def check_room_availability(db: Session, room_id: int, entry_date: str, leaving_
     ).count() == 0
 
 def get_hotel_capacities(db: Session):
-    query = "SELECT * FROM Capacite_hotel"
+    query = text("SELECT * FROM Capacite_hotel_disponible")
     result = db.execute(query).fetchall()
-    return [dict(row) for row in result]
+    return [row._asdict() for row in result]
 
 def get_rooms_by_zone(db: Session):
-    query = "SELECT * FROM Chambre_par_zone"
+    query = text("SELECT * FROM Chambre_par_zone")
     result = db.execute(query).fetchall()
-    return [dict(row) for row in result]
+    return [row._asdict() for row in result]

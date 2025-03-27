@@ -70,3 +70,12 @@ class BookingBase(BaseModel):
 
 class BookingCreate(BookingBase):
     pass
+
+class HotelCapacity(BaseModel):
+    hotel_id: int
+    name: str
+    capacite_total_disponible: int
+
+class RoomsByZone(BaseModel):
+    zone: str
+    nombre_chambres_disponibles: int
