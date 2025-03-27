@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import './home.css';  // Import the CSS file
+import './home.css';  
 
 export default function Home() {
   const [searchParams, setSearchParams] = useState({
@@ -9,16 +9,25 @@ export default function Home() {
     capacity: "",
     superficie: "",
     price: "",
-    hotel_id: ""
+    hotel_name: ""  
   });
 
   const [rooms, setRooms] = useState([]);
-  
+
+  const hotels = [
+    { id: 1, name: 'Elite Suites' },
+    { id: 2, name: 'Budget Stay' },
+    { id: 3, name: 'Green Getaways' },
+    { id: 4, name: 'Royal Resorts' },
+    { id: 5, name: 'Coastal Escapes' }
+  ];
+
   const handleChange = (e) => {
     setSearchParams({ ...searchParams, [e.target.name]: e.target.value });
   };
 
   const searchRooms = async () => {
+    setRooms([]);
     try {
       const response = await axios.get("http://127.0.0.1:8000/rooms/available/", {
         params: searchParams
@@ -74,14 +83,21 @@ export default function Home() {
           onChange={handleChange} 
           className="input-field"
         />
-        <input 
-          type="number" 
-          name="hotel_id" 
-          placeholder="Hotel ID (optional)" 
-          value={searchParams.hotel_id} 
+
+        {/* Hotel Dropdown */}
+        <select 
+          name="hotel_name" 
+          value={searchParams.hotel_name} 
           onChange={handleChange} 
           className="input-field"
-        />
+        >
+          <option value="">Select a Hotel</option>
+          {hotels.map((hotel) => (
+            <option key={hotel.id} value={hotel.name}>
+              {hotel.name}
+            </option>
+          ))}
+        </select>
       </div>
 
       <button 
