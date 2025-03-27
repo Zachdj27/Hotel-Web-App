@@ -9,7 +9,9 @@ export default function Home() {
     capacity: "",
     superficie: "",
     price: "",
-    hotel_id: ""  
+    hotel_id: "", 
+    pays: "",
+    zone: "", 
   });
 
   const [rooms, setRooms] = useState([]);
@@ -22,6 +24,34 @@ export default function Home() {
     { id: 5, name: 'Coastal Escapes' }
   ];
 
+  const zones =[
+    "London",
+    "Coronado",
+    "New York",
+    "Mississauga",
+    "Tampa",
+    "Toronto",
+    "Carlsbad",
+    "Syracuse",
+    "Playa del Carmen",
+    "Ottawa",
+    "Orlando",
+    "Tulum",
+    "Oceanside",
+    "Albany",
+    "Cozumel",
+    "Jacksonville",
+    "San Diego",
+    "Cancun",
+    "Miami",
+    "Rochester"
+  ];
+
+  const pays= [
+    "Mexico",
+    "Canada",
+    "USA"
+  ];
   const handleChange = (e) => {
     setSearchParams({ ...searchParams, [e.target.name]: e.target.value });
   };
@@ -31,9 +61,18 @@ export default function Home() {
     try {
       const params = { ...searchParams };
   
-      //remove hotel_id if it's empty
+      //remove hotel_id if empty
       if (!params.hotel_id) {
         delete params.hotel_id;
+      }
+      if (!params.pays) {
+        delete params.pays;
+      }
+      if (!params.zone) {
+        delete params.zone;
+      }
+      if (!params.price) {
+        delete params.price;
       }
   
       const response = await axios.get("http://127.0.0.1:8000/rooms/available/", {
@@ -103,6 +142,34 @@ export default function Home() {
           {hotels.map((hotel) => (
             <option key={hotel.id} value={hotel.id}>
               {hotel.name}
+            </option>
+          ))}
+        </select>
+
+        <select 
+          name="pays" 
+          value={searchParams.pays} 
+          onChange={handleChange} 
+          className="input-field"
+        >
+          <option value="">Select a zone</option>
+          {pays.map((pays) => (
+            <option>
+              {pays}
+            </option>
+          ))}
+        </select>
+
+        <select 
+          name="zone" 
+          value={searchParams.zone} 
+          onChange={handleChange} 
+          className="input-field"
+        >
+          <option value="">Select a zone</option>
+          {zones.map((zone) => (
+            <option>
+              {zone}
             </option>
           ))}
         </select>

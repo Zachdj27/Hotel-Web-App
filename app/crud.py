@@ -28,25 +28,31 @@ def get_available_rooms(
     capacity: int,
     superficie: int,
     price: Optional[float] = None,
-    hotel_id: Optional[int] = None
+    hotel_id: Optional[int] = None,
+    pays: Optional[str] = None,
+    zone: Optional[str]=None,
 ) -> list:
     #convert string dates to datetime objects
     start_date = datetime.strptime(start_date, "%Y-%m-%d")
     end_date = datetime.strptime(end_date, "%Y-%m-%d")
 
     # query to filter by room capacity, price, and hotel
-    query = db.query(models.Chambre).filter(
+    query = db.query(models.Chambre).join(models.Hotel)
+    query = query.filter(
         models.Chambre.capacite >= capacity,  
     )
     query = query.filter(
         models.Chambre.superficie >= superficie,  
     )
 
-    if price is not None:
+    if price:
         query = query.filter(models.Chambre.prix <= price)
-
     if hotel_id:
         query = query.filter(models.Chambre.hotel_id == hotel_id)
+    if pays:  
+        query = query.filter(models.Hotel.pays == pays)
+    if zone:  
+        query = query.filter(models.Hotel.zone == zone)
 
     #get all rooms that meet the basic criteria
     rooms = query.all()
