@@ -82,3 +82,12 @@ def check_room_availability(db: Session, room_id: int, entry_date: str, leaving_
         models.Booking.leaving_date >= entry_date
     ).count() == 0
 
+def get_hotel_capacities(db: Session):
+    query = "SELECT * FROM Capacite_hotel"
+    result = db.execute(query).fetchall()
+    return [dict(row) for row in result]
+
+def get_rooms_by_zone(db: Session):
+    query = "SELECT * FROM Chambre_par_zone"
+    result = db.execute(query).fetchall()
+    return [dict(row) for row in result]
