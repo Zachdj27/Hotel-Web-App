@@ -76,16 +76,23 @@ export default function Home() {
     fetchData();
   }, []);
 
+
   const handleChange = (e) => {
     setSearchParams({ ...searchParams, [e.target.name]: e.target.value });
   };
 
   const searchRooms = async () => {
+    //check if both start and end dates are selected
+    if (!searchParams.start_date || !searchParams.end_date) {
+      alert("Please select both start and end dates to search for rooms.");
+      return;
+    }
+  
     setRooms([]);
     try {
       const params = { ...searchParams };
   
-      //remove hotel_id if empty
+      //remove empty fields
       if (!params.hotel_id) {
         delete params.hotel_id;
       }
@@ -115,7 +122,7 @@ export default function Home() {
       console.error("Error fetching rooms", error);
     }
   };
-
+  
   return (
     <div>
       <MenuBar/>
