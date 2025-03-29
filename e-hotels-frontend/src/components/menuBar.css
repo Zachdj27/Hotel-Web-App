@@ -1,0 +1,61 @@
+.menu-bar {
+    width: 100%;
+    height: 60px;
+    background-color: #2b6cb0; /* Blue background */
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .menu-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .menu-buttons {
+    display: flex;
+    gap: 12px;
+    margin-right: 40px;
+  }
+  
+  .menu-button {
+    background-color: white;
+    color: #2b6cb0;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease-in-out;
+    white-space: nowrap; /* Ensures buttons don’t wrap */
+  }
+  
+  .menu-button:hover {
+    background-color: #e2e8f0;
+  }
+  
+  /* Ensure content does not go under menu */
+  .container {
+    margin-top: 80px; /* Pushes content down so it's not hidden under the fixed menu bar */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .menu-bar {
+      flex-direction: column;
+      height: auto;
+      padding: 10px 20px;
+    }
+    
+    .menu-buttons {
+      margin-top: 8px;
+    }
+  }
+  
