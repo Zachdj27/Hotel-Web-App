@@ -1,7 +1,7 @@
 .menu-bar {
     width: 100%;
     height: 60px;
-    background-color: #2b6cb0; /* Blue background */
+    background-color: #2b6cb0; 
     color: white;
     display: flex;
     justify-content: space-between;
@@ -34,19 +34,19 @@
     cursor: pointer;
     font-weight: 600;
     transition: background-color 0.3s ease-in-out;
-    white-space: nowrap; /* Ensures buttons don’t wrap */
+    white-space: nowrap; 
   }
   
   .menu-button:hover {
     background-color: #e2e8f0;
   }
   
-  /* Ensure content does not go under menu */
+
   .container {
-    margin-top: 80px; /* Pushes content down so it's not hidden under the fixed menu bar */
+    margin-top: 80px; 
   }
   
-  /* Responsive adjustments */
+  /* responsive adjustments */
   @media (max-width: 600px) {
     .menu-bar {
       flex-direction: column;

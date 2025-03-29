@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import './home.css';  
 import MenuBar from "../components/MenuBar";
@@ -54,6 +54,28 @@ export default function Home() {
     "Canada",
     "USA"
   ];
+  
+  const [showHotelCapacities, setShowHotelCapacities] = useState(false);
+
+  const [hotelCapacities, setHotelCapacities] = useState([]);
+
+  const [roomsByZone, setRoomsByZone] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const hotelCapacityData = await axios.get("http://127.0.0.1:8000/hotels/capacity/");
+        setHotelCapacities(hotelCapacityData.data);
+        
+        const roomsByZoneData = await axios.get("http://127.0.0.1:8000/zones/available-rooms/");
+        setRoomsByZone(roomsByZoneData.data);
+      } catch (error) {
+        console.error("Error fetching additional data", error);
+      }
+    }
+    fetchData();
+  }, []);
+
   const handleChange = (e) => {
     setSearchParams({ ...searchParams, [e.target.name]: e.target.value });
   };
@@ -99,7 +121,40 @@ export default function Home() {
       <MenuBar/>
       <div className="container">
         <h2 className="title">Search for Available Rooms</h2>
+{/* Show/Hide Sections Button */}
+<div className="toggle-section">
+          <button onClick={() => setShowHotelCapacities(!showHotelCapacities)} className="toggle-button">
+            {showHotelCapacities ? "Hide Additional Information" : "Show Additional Information"}
+          </button>
+        </div>
 
+        {showHotelCapacities && (
+          <>
+            {/* Hotel Capacities */}
+            <div className="info-box">
+              <h3>Today's Hotel Capacities</h3>
+              <ul>
+                {hotelCapacities.map((hotel, index) => (
+                  <li key={index}>
+                    {hotel.name}: {hotel.capacite_total_disponible} rooms
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Rooms Available by Zone */}
+            <div className="info-box">
+              <h3>Today's Rooms Available by Zone</h3>
+              <ul>
+                {roomsByZone.map((zone, index) => (
+                  <li key={index}>
+                    {zone.zone}: {zone.nombre_chambres_disponibles} available
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </>
+        )}
         {/* Search Form */}
         <div className="form-container">
           <input 
