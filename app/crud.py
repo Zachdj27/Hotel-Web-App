@@ -25,8 +25,8 @@ def get_available_rooms(
     db: Session,
     start_date: str,
     end_date: str,
-    capacity: int,
-    superficie: int,
+    capacity: Optional[int] = None,
+    superficie: Optional[int] = None,
     price: Optional[float] = None,
     hotel_id: Optional[int] = None,
     pays: Optional[str] = None,
@@ -38,13 +38,10 @@ def get_available_rooms(
 
     # query to filter by room capacity, price, and hotel
     query = db.query(models.Chambre).join(models.Hotel)
-    query = query.filter(
-        models.Chambre.capacite >= capacity,  
-    )
-    query = query.filter(
-        models.Chambre.superficie >= superficie,  
-    )
-
+    if capacity:
+        query = query.filter(models.Chambre.capacite >= capacity)
+    if superficie:
+        query = query.filter(models.Chambre.superficie >= superficie)
     if price:
         query = query.filter(models.Chambre.prix <= price)
     if hotel_id:

@@ -65,6 +65,12 @@ export default function Home() {
       if (!params.hotel_id) {
         delete params.hotel_id;
       }
+      if (!params.superficie) {
+        delete params.superficie;
+      }
+      if (!params.capacity) {
+        delete params.capacity;
+      }
       if (!params.pays) {
         delete params.pays;
       }
@@ -152,7 +158,7 @@ export default function Home() {
           onChange={handleChange} 
           className="input-field"
         >
-          <option value="">Select a zone</option>
+          <option value="">Select a country</option>
           {pays.map((pays) => (
             <option>
               {pays}

@@ -8,9 +8,9 @@ router = APIRouter(prefix="/rooms", tags=["Rooms"])
 def get_available_rooms(
     start_date: str, 
     end_date: str, 
-    capacity: int, 
-    superficie: int,
-    price: float, 
+    capacity: int = None, 
+    superficie: int = None,
+    price: float = None, 
     hotel_id: int = None, 
     pays: str = None,
     zone: str = None,
