@@ -131,7 +131,7 @@ export default function Home() {
 {/* Show/Hide Sections Button */}
 <div className="toggle-section">
           <button onClick={() => setShowHotelCapacities(!showHotelCapacities)} className="toggle-button">
-            {showHotelCapacities ? "Hide Additional Information" : "Show Additional Information"}
+            {showHotelCapacities ? "Hide Hotel Capacities" : "Show Hotel Capacities"}
           </button>
         </div>
 
