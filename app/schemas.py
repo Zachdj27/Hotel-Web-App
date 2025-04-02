@@ -55,6 +55,11 @@ class Client(ClientBase):
 
     class Config:
         orm_mode = True
+class ClientResponse(ClientBase):
+    client_id: int  #include the client_id
+
+    class Config:
+        from_attributes = True
 
 class RoomBase(BaseModel):
     numero_chambre: str

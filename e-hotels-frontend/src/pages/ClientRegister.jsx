@@ -29,7 +29,7 @@ export default function ClientRegister() {
         try {
             const response = await axios.post("http://127.0.0.1:8000/clients/create-account", clientInfo);
             if (response.data.successCreation) {
-                navigate("/client/booking");
+                navigate("/");
             } else {
                 setError("Invalid account information. Please try again.");
             }

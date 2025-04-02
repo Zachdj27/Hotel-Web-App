@@ -16,6 +16,7 @@ export default function ClientLogin() {
       const response = await axios.post("http://127.0.0.1:8000/clients/login", { NAS: NAS, password: password });
       
       if (response.data.success) {
+        localStorage.setItem("client_id", response.data.client_id);
         navigate("/client/booking"); 
       } else {
         setError("Invalid account information. Please try again.");
