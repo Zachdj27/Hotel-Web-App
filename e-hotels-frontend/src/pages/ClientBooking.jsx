@@ -5,6 +5,7 @@ import MenuBar from "../components/MenuBar";
 import "../components/menuBar.css"
 
 export default function ClientBooking() {
+  const bookingStatus = "Réservé";
   const [searchParams, setSearchParams] = useState({
     start_date: "",
     end_date: "",
