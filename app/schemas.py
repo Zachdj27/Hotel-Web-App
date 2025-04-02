@@ -70,8 +70,8 @@ class RoomBase(BaseModel):
 class BookingBase(BaseModel):
     client_id: int
     room_id: int
-    entry_date: str
-    leaving_date: str
+    entry_date: date
+    leaving_date: date
     status: str
 
 class BookingCreate(BookingBase):

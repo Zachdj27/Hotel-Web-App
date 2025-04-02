@@ -79,7 +79,7 @@ def create_booking(db: Session, booking: schemas.BookingCreate):
     db.add(db_booking)
     db.commit()
     db.refresh(db_booking)
-    return db_booking
+    return {"successBooking": True, "booking": db_booking}
 
 def update_booking_status(db: Session, booking_id: int, status: str):
     db_booking = db.query(models.Booking).filter(models.Booking.booking_id == booking_id).first()

@@ -5,6 +5,7 @@ import MenuBar from "../components/MenuBar";
 import "../components/menuBar.css"
 
 export default function ClientBooking() {
+  const [clientId, setClientId] = useState(null);
   const bookingStatus = "Réservé";
   const [searchParams, setSearchParams] = useState({
     start_date: "",
@@ -63,6 +64,11 @@ export default function ClientBooking() {
   const [roomsByZone, setRoomsByZone] = useState([]);
 
   useEffect(() => {
+    const storedClientId = localStorage.getItem("client_id");
+    if (storedClientId) {
+      setClientId(storedClientId);
+    }
+
     async function fetchData() {
       try {
         const hotelCapacityData = await axios.get("http://127.0.0.1:8000/hotels/capacity/");
@@ -121,6 +127,34 @@ export default function ClientBooking() {
       console.log("API Response:", response.data);
     } catch (error) {
       console.error("Error fetching rooms", error);
+    }
+  };
+
+  const bookRoom = async (roomId) => {
+    if (!clientId) {
+      alert("You must be logged in to book a room.");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/bookings", {
+        client_id: clientId,
+        room_id: roomId,
+        entry_date: new Date(searchParams.start_date).toISOString().split('T')[0],
+        leaving_date: new Date(searchParams.end_date).toISOString().split('T')[0],
+        status: bookingStatus
+      });
+
+      if (response.data.successBooking) {
+        alert("Room booked successfully!");
+
+        
+        setRooms(rooms.filter(room => room.id !== roomId));
+      } else {
+        alert("Booking failed.");
+      }
+    } catch (error) {
+      console.error("Error booking room", error);
     }
   };
   
@@ -267,7 +301,7 @@ export default function ClientBooking() {
                   <p>Capacity: {room.capacite} people</p>
                   <p>Size: {room.superficie} m²</p>
                   <p>Price: ${room.prix}</p>
-                  <button className="bg-green-500 text-white p-2 rounded mt-2">
+                  <button className="bg-green-500 text-white p-2 rounded mt-2" onClick={() => bookRoom(room.room_id)}>
                     Book
                   </button>
                 </div>
