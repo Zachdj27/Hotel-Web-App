@@ -1,0 +1,160 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    font-size: 62.5%;
+}
+
+body {
+    font-family: sans-serif;
+    line-height: 1;
+    font-weight: 400;
+    color: black;
+    text-rendering: optimizeLegibility;
+}
+header {
+    height: 100vh;
+}
+section {
+    padding: 50px 0 115px 0;
+}
+a:link {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+h1, h2, h3{
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+}
+h1 {
+    margin-top: 0;
+    font-size: 250%;
+    word-spacing: 2px;
+    letter-spacing: 0.5px;
+}
+h2 {
+    font-size: 200%;
+    word-spacing: 2.5px;
+    letter-spacing: 0.625px;
+}
+h3 {
+    font-size: 150%;
+    word-spacing: 1px;
+    letter-spacing: 0.25px;
+}
+p {
+    padding-top: 9.5%;
+}
+footer {
+    background-color: black;
+    padding: 15px;
+}
+footer p {
+    color: #ccc8c8;
+    text-align: center;
+    margin-top: 5px;
+    font-size: 180%;
+}
+.line {
+    max-width: 1140px;
+    margin: 0 auto;
+    zoom: 1;
+}
+.line:before, .line:after {
+    content: "";
+    display: table;
+}
+.line:after {
+    clear: both;
+}
+.welcome-account-board {
+    position: absolute;
+    width: 1140px;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.account-btn {
+    display: block;
+    margin-left: -20%;
+    margin-top: 5%;
+    color: #555;
+    font-size: 190%;
+    font-family: Tahoma;
+    text-align: center;
+    word-spacing: 0.5px;
+    letter-spacing: 0.15px;
+}
+.column {
+    display: block;
+    float: left;
+    margin: 1% 0 1% 1.6%;
+}
+.column:first-child {
+    margin-left: 15%;
+    padding-right: 5%;
+}
+.column:last-child {
+    margin-left: 18%;
+    padding-left: 5%;
+}
+.regform {
+    font-size: 190%;
+    width: 100%;
+    padding: 5%;
+    border: 1px solid #ccc;
+    
+}
+.smallform {
+    margin-left: 28%;
+    font-size: 140%;
+    width: 50%;
+}
+.single {
+    margin-top: 55%;
+}
+
+.regform * {
+    box-sizing: border-box;
+}
+.regform fieldset {
+    border: none;
+    padding: 0;
+}
+.regform label {
+    padding: 0;
+    font-weight: bold;
+}
+.regform input[type="text"],
+.regform input[type="number"],
+.regform input[type="date"],
+.regform select,
+.regform textarea {
+    display: block;
+    width: 100%;
+    border: 1px solid #ccc;
+    font-size: 0.9em;
+    padding: 0.3em;
+} 
+
+.form-btn {
+    display: inline-block;
+    background: rgb(222, 222, 222);
+    border: none;
+    padding: 10px 20px;
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 4px;
+}
+.form-btn:hover {
+    background: #ccc8c8;
+    cursor: pointer;
+}

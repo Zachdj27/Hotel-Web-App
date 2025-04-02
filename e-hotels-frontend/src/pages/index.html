@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css">
+    <title>eHotel, Not Trivago</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+    <header>
+      <div class="welcome-account-board">
+        <h1>Welcome to eHotels!</h1>
+        <h3>Choose your account type</h3>
+        <a class="account-btn" href="#customer-signin">Customer</a>
+        <a class="account-btn" href="#employee-signin">Employee</a>
+        <a class="account-btn" href="#employee-signin">Manager</a>
+      </div>
+    </header>
+    <section class="cust-signin" id="customer-signin">
+      <div class="line">
+        <div class="column col">
+          <h2>New Customer?</h2>
+          <h3>Registration Form</h3>
+          <form method="get" action="#" class="regform">
+            <p>
+              <label>NAS
+              <input type="text" name="customer_nas" placeholder="Enter your 9-digit NAS" required pattern="[0-9]{11}">
+              </label> 
+            </p>
+            <p>
+              <label>Name
+              <input type="text" name="customer_name" placeholder="Enter Full Name" required>
+              </label> 
+            </p>
+            <p>
+              <label>Address
+              <input type="text" name="customer_name" placeholder="Enter Address" required>
+              </label> 
+            </p>
+            <p>
+              <label>Registration Date
+              <input type="date" name="reg_date" required>
+              </label>
+            </p>
+            <p><a href="customer.html" class="form-btn">Register!</a></p>
+          </form>
+        </div>
+        <div class="column col">
+          <h2>Already a customer?</h2>
+          <h3>Sign in: </h3>
+          <form action="#" method="get" class="regform single">
+            <p>
+              <label>NAS
+              <input type="text" name="customer_nas" placeholder="Enter your 9-digit NAS" required pattern="[0-9]{11}">
+              </label> 
+            </p>
+            <p><a href="customer.html" class="form-btn">Sign in!</a></p>
+          </form>
+        </div>
+      </div>
+    </section>
+    <section class="emp-signin" id="employee-signin">
+      <div class="line">
+          <h2>Employee/Manager Sign-in</h2>
+          <form action="#" method="get" class="regform smallform">
+            <p>
+              <label>NAS
+              <input type="text" name="employee_nas" placeholder="Enter your 9-digit NAS" required pattern="[0-9]{11}">
+              </label> 
+            </p>
+            <p><a href="#" class="form-btn">Sign in!</a></p>
+          </form>
+      </div>
+    </section>
+    <footer>
+      <div class="line">
+        <p>
+          Copyright © 2025 by Celia, Zachary, Arielle, Bliss. All rights reserved.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
