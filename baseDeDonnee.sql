@@ -50,6 +50,7 @@ CREATE TABLE Client (
     NAS VARCHAR(20) UNIQUE NOT NULL,
     nom_complet VARCHAR(255) NOT NULL,
     adresse TEXT,
+    password VARCHAR(255),
     date_enregistrement DATE DEFAULT CURRENT_DATE
 );
 

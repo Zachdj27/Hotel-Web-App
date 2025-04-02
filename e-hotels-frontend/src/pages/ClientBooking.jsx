@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import './home.css';  
+import './clientBooking.css';  
 import MenuBar from "../components/MenuBar";
 import "../components/menuBar.css"
 
-export default function Home() {
+export default function ClientBooking() {
   const [searchParams, setSearchParams] = useState({
     start_date: "",
     end_date: "",

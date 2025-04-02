@@ -1,13 +1,29 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./auth.css";
 
 export default function ClientLogin() {
-  const [nas, setNas] = useState("");
+  const [NAS, setNas] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Logging in Client:", { nas, password });
+    
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/clients/login", { NAS: NAS, password: password });
+      
+      if (response.data.success) {
+        navigate("/client/booking"); 
+      } else {
+        setError("Invalid account information. Please try again.");
+      }
+    } catch (error) {
+      console.error("Login failed", error);
+      setError("Error logging in. Check NAS.");
+    }
   };
 
   return (
@@ -15,9 +31,9 @@ export default function ClientLogin() {
       <h2>Client Login</h2>
       <form onSubmit={handleLogin}>
         <input 
-          type="text" 
+          type="number" 
           placeholder="NAS (Social Security Number)" 
-          value={nas} 
+          value={NAS} 
           onChange={(e) => setNas(e.target.value)}
           required 
         />
@@ -30,8 +46,9 @@ export default function ClientLogin() {
         />
         <button type="submit">Login</button>
       </form>
-      <p className="test-accounts">Test Client Account: NAS: 987654321, Pass: client123</p>
-      <p>Don't have an account? <a href="#">Create one</a></p>
+      {error && <p className="error">{error}</p>}
+      <p className="test-accounts">Test Client Account: NAS: 300355345, Mot de Passe: Password</p>
+      <p>Don't have an account? <a href="/client-register">Create one</a></p>
     </div>
   );
 }

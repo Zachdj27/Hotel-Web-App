@@ -22,7 +22,7 @@
   .menu-buttons {
     display: flex;
     gap: 12px;
-    margin-right: 40px;
+    margin-right: 90px;
   }
   
   .menu-button {
@@ -45,6 +45,8 @@
   .container {
     margin-top: 80px; 
   }
+
+  
   
   /* responsive adjustments */
   @media (max-width: 600px) {

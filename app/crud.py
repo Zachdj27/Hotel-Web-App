@@ -10,12 +10,24 @@ def create_client(db: Session, client: schemas.ClientCreate):
         NAS=client.NAS,
         nom_complet=client.nom_complet,
         adresse=client.adresse,
+        password=client.password,
         date_enregistrement=date.today()  #today
     )
     db.add(db_client)
     db.commit()
     db.refresh(db_client)
-    return db_client
+    return {"successCreation": True, "client": db_client}
+
+def client_login(db: Session, login_details: schemas.ClientLogin):
+    client = db.query(models.Client).filter(
+        models.Client.NAS == login_details.NAS,
+        models.Client.password == login_details.password
+    ).first()
+
+    if not client:
+        return {"success": False, "client_id": None}
+
+    return {"success": True, "client_id": client.client_id}
 
 
 def get_client(db: Session, client_id: int):

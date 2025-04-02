@@ -72,6 +72,7 @@ class Client(Base):
     NAS = Column(String(9), unique=True, nullable=False, name="nas")
     nom_complet = Column(String(255), nullable=False)
     adresse = Column(Text)
+    password = Column(String(255), nullable=False)
     date_enregistrement = Column(Date)
 
     bookings = relationship("Booking", back_populates="client")

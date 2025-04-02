@@ -24,10 +24,10 @@ class HotelBase(BaseModel):
 class ChambreBase(BaseModel):
     hotel_id: int
     numero_chambre: str
-    prix: float
+    prix: Optional[float]
     commodites: Optional[str]
-    capacite: int
-    superficie: int
+    capacite: Optional[int]
+    superficie: Optional[int]
     vue: Optional[str]
     etendre: Optional[bool] = False
     dommages: Optional[str]
@@ -44,6 +44,7 @@ class ClientBase(BaseModel):
     NAS: str
     nom_complet: str
     adresse: str
+    password: str
     date_enregistrement: Optional[date] = None
 
 class ClientCreate(ClientBase):
@@ -79,3 +80,7 @@ class HotelCapacity(BaseModel):
 class RoomsByZone(BaseModel):
     zone: str
     nombre_chambres_disponibles: int
+    
+class ClientLogin(BaseModel):
+    NAS: str
+    password: str
