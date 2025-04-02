@@ -1,21 +1,38 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./auth.css";
 
-export default function EmployeeLogin() {
+export default function ClientLogin() {
   const [nas, setNas] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Logging in Employee:", { nas, password });
+    
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/employees/login", { nas: nas, password: password });
+      
+      if (response.data.success) {
+        localStorage.setItem("employee_id", response.data.employee_id);
+        navigate("/client/booking"); 
+      } else {
+        setError("Invalid account information. Please try again.");
+      }
+    } catch (error) {
+      console.error("Login failed", error);
+      setError("Error logging in. Check NAS.");
+    }
   };
 
   return (
     <div className="auth-container">
-      <h2>Employee Login</h2>
+      <h2>Client Login</h2>
       <form onSubmit={handleLogin}>
         <input 
-          type="text" 
+          type="number" 
           placeholder="NAS (Social Security Number)" 
           value={nas} 
           onChange={(e) => setNas(e.target.value)}
@@ -30,8 +47,9 @@ export default function EmployeeLogin() {
         />
         <button type="submit">Login</button>
       </form>
-      <p className="test-accounts">Test Employee Account: NAS: 123456789, Pass: test123</p>
-      <p>Don't have an account? <a href="#">Create one</a></p>
+      {error && <p className="error">{error}</p>}
+      <p className="test-accounts">Test Client Account: NAS: 300355543, Mot de Passe: motDePasse</p>
+      <p>Don't have an account? <a href="/client-register">Create one</a></p>
     </div>
   );
 }

@@ -40,6 +40,15 @@ class BookingBase(BaseModel):
     leaving_date: date
     status: str
 
+class EmployeeBase(BaseModel):
+    hotel_id: int
+    nas: str
+    nom_complet: str
+    adresse: str
+    poste: str
+    password: str
+class EmployeeCreate(EmployeeBase):
+    pass
 class ClientBase(BaseModel):
     NAS: str
     nom_complet: str
@@ -88,4 +97,7 @@ class RoomsByZone(BaseModel):
     
 class ClientLogin(BaseModel):
     NAS: str
+    password: str
+class EmployeeLogin(BaseModel):
+    nas: str
     password: str

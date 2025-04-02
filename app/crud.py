@@ -138,3 +138,15 @@ def delete_client(db: Session, client_id: int):
     
     #if client doesn't exist, return an error message
     return {"success": False, "message": f"Client with ID {client_id} not found"}
+
+
+def employee_login(db: Session, login_details: schemas.EmployeeLogin):
+    employee = db.query(models.Employee).filter(
+        models.Employee.nas == login_details.nas,
+        models.Employee.password == login_details.password
+    ).first()
+
+    if not employee:
+        return {"success": False, "employee_id": None}
+
+    return {"success": True, "employee_id": employee.employee_id}

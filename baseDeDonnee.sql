@@ -41,7 +41,8 @@ CREATE TABLE Employee (
     NAS VARCHAR(20) UNIQUE NOT NULL,
     nom_complet VARCHAR(255) NOT NULL,
     adresse TEXT,
-    poste VARCHAR(100)
+    poste VARCHAR(100),
+    password VARCHAR(255),
 );
 
 --  Table Client

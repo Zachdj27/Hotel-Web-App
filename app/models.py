@@ -57,10 +57,11 @@ class Employee(Base):
 
     employee_id = Column(Integer, primary_key=True, autoincrement=True)
     hotel_id = Column(Integer, ForeignKey("hotel.hotel_id", ondelete="CASCADE"))
-    NAS = Column(String(20), unique=True, nullable=False)
+    nas = Column(String(20), unique=True, nullable=False)
     nom_complet = Column(String(255), nullable=False)
     adresse = Column(Text)
     poste = Column(String(100))
+    password = Column(String(255), nullable=False)
 
     hotel = relationship("Hotel", back_populates="employees")
 
