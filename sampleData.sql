@@ -1,5 +1,5 @@
 -- Hotel Chains 
-INSERT INTO Chaine_hoteliere (hotel_id, name, adresse_bureau, nombre_hotels, email)
+INSERT INTO Chaine_hoteliere (chain_id, name, adresse_bureau, nombre_hotels, email)
 VALUES
 (1,'Elite Suites', '123 Prestige Ave, New York, USA', 8, 'contact@elitesuites.com'),
 (2,'Budget Stay', '456 Affordable St, Toronto, Canada', 8, 'info@budgetstay.com'),

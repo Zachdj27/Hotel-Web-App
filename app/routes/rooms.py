@@ -11,9 +11,10 @@ def get_available_rooms(
     capacity: int = None, 
     superficie: int = None,
     price: float = None, 
-    hotel_id: int = None, 
+    chain_id: int = None, 
     pays: str = None,
     zone: str = None,
+    classement: int = None,
     db: Session = Depends(database.get_db)
 ):
-    return {"available_rooms": crud.get_available_rooms(db, start_date, end_date, capacity, superficie, price, hotel_id, pays, zone)}
+    return {"available_rooms": crud.get_available_rooms(db, start_date, end_date, capacity, superficie, price, chain_id, pays, zone,classement)}

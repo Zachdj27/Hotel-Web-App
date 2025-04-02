@@ -23,7 +23,7 @@ class HotelBase(BaseModel):
 
 class ChambreBase(BaseModel):
     hotel_id: int
-    numero_chambre: str
+    room_id: str
     prix: Optional[float]
     commodites: Optional[str]
     capacite: Optional[int]

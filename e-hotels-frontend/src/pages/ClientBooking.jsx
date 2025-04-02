@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import './clientBooking.css';  
 import MenuBar from "../components/MenuBar";
 import "../components/menuBar.css"
+import { chains, zones, pays, classements } from './constants';
 
 export default function ClientBooking() {
+  const navigate = useNavigate();
   const [clientId, setClientId] = useState(null);
   const bookingStatus = "Réservé";
   const [searchParams, setSearchParams] = useState({
@@ -13,49 +16,13 @@ export default function ClientBooking() {
     capacity: "",
     superficie: "",
     price: "",
-    hotel_id: "", 
+    chain_id: "", 
     pays: "",
     zone: "", 
+    classement: ""
   });
 
   const [rooms, setRooms] = useState([]);
-
-  const hotels = [
-    { id: 1, name: 'Elite Suites' },
-    { id: 2, name: 'Budget Stay' },
-    { id: 3, name: 'Green Getaways' },
-    { id: 4, name: 'Royal Resorts' },
-    { id: 5, name: 'Coastal Escapes' }
-  ];
-
-  const zones =[
-    "London",
-    "Coronado",
-    "New York",
-    "Mississauga",
-    "Tampa",
-    "Toronto",
-    "Carlsbad",
-    "Syracuse",
-    "Playa del Carmen",
-    "Ottawa",
-    "Orlando",
-    "Tulum",
-    "Oceanside",
-    "Albany",
-    "Cozumel",
-    "Jacksonville",
-    "San Diego",
-    "Cancun",
-    "Miami",
-    "Rochester"
-  ];
-
-  const pays= [
-    "Mexico",
-    "Canada",
-    "USA"
-  ];
   
   const [showHotelCapacities, setShowHotelCapacities] = useState(false);
 
@@ -100,8 +67,8 @@ export default function ClientBooking() {
       const params = { ...searchParams };
   
       //remove empty fields
-      if (!params.hotel_id) {
-        delete params.hotel_id;
+      if (!params.chain_id) {
+        delete params.chain_id;
       }
       if (!params.superficie) {
         delete params.superficie;
@@ -117,6 +84,9 @@ export default function ClientBooking() {
       }
       if (!params.price) {
         delete params.price;
+      }
+      if (!params.classement) {
+        delete params.classement;
       }
   
       const response = await axios.get("http://127.0.0.1:8000/rooms/available/", {
@@ -158,9 +128,34 @@ export default function ClientBooking() {
     }
   };
   
+  const handleSignOut = () => {
+    localStorage.removeItem("client_id");
+    navigate("/");
+  };
+  
+  const deleteAccount = async (clientId) => {
+    try {
+      const response = await axios.delete(`http://127.0.0.1:8000/clients/${clientId}`);
+      
+      if (response.data.success) {
+        alert("Account deleted successfully");
+        // Use the same sign out function
+        handleSignOut();
+      } else {
+        alert("Failed to delete account");
+      }
+    } catch (error) {
+      console.error("Error deleting account", error);
+      alert("Error deleting account");
+    }
+  };
+
   return (
     <div>
-      <MenuBar/>
+      <MenuBar
+        clientId={clientId} 
+        onDeleteAccount={deleteAccount} 
+        onSignOut={handleSignOut}/>
       <div className="container">
         <h2 className="title">Search for Available Rooms</h2>
 {/* Show/Hide Sections Button */}
@@ -240,15 +235,15 @@ export default function ClientBooking() {
 
           {/* Hotel Dropdown */}
           <select 
-            name="hotel_id" 
-            value={searchParams.hotel_id} 
+            name="chain_id" 
+            value={searchParams.chain_id} 
             onChange={handleChange} 
             className="input-field"
           >
-            <option value="">Select a Hotel</option>
-            {hotels.map((hotel) => (
-              <option key={hotel.id} value={hotel.id}>
-                {hotel.name}
+            <option value="">Select a Hotel Chain</option>
+            {chains.map((chain) => (
+              <option key={chain.id} value={chain.id}>
+                {chain.name}
               </option>
             ))}
           </select>
@@ -280,6 +275,20 @@ export default function ClientBooking() {
               </option>
             ))}
           </select>
+
+          <select 
+            name="classement" 
+            value={searchParams.zone} 
+            onChange={handleChange} 
+            className="input-field"
+          >
+            <option value="">Select a Hotel Rating</option>
+            {classements.map((classement) => (
+              <option>
+                {classement}
+              </option>
+            ))}
+          </select>
         </div>
 
         <button 
@@ -297,10 +306,15 @@ export default function ClientBooking() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {rooms.map((room) => (
                 <div key={room.room_id} className="room-card">
+                  <h2>Hotel: {room.hotel_name}</h2>
+                  <h3>Hotel Chain: {chains.find(chain => chain.id === room.chain_id)?.name || 'Unknown'}</h3>
                   <h4>Room ID: {room.room_id}</h4>
                   <p>Capacity: {room.capacite} people</p>
                   <p>Size: {room.superficie} m²</p>
                   <p>Price: ${room.prix}</p>
+                  <p>Rating: {room.classement}</p>
+                  <p>Pays: {room.pays}</p>
+                  <p>Zone: {room.zone}</p>
                   <button className="bg-green-500 text-white p-2 rounded mt-2" onClick={() => bookRoom(room.room_id)}>
                     Book
                   </button>

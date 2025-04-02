@@ -40,37 +40,55 @@ def get_available_rooms(
     capacity: Optional[int] = None,
     superficie: Optional[int] = None,
     price: Optional[float] = None,
-    hotel_id: Optional[int] = None,
+    chain_id: Optional[int] = None,
     pays: Optional[str] = None,
     zone: Optional[str]=None,
+    classement: Optional[int] = None
 ) -> list:
     #convert string dates to datetime objects
     start_date = datetime.strptime(start_date, "%Y-%m-%d")
     end_date = datetime.strptime(end_date, "%Y-%m-%d")
 
     # query to filter by room capacity, price, and hotel
-    query = db.query(models.Chambre).join(models.Hotel)
+    query = db.query(models.Chambre, models.Hotel).join(models.Hotel)
     if capacity:
         query = query.filter(models.Chambre.capacite >= capacity)
     if superficie:
         query = query.filter(models.Chambre.superficie >= superficie)
     if price:
         query = query.filter(models.Chambre.prix <= price)
-    if hotel_id:
-        query = query.filter(models.Chambre.hotel_id == hotel_id)
+    if chain_id:
+        query = query.filter(models.Chambre.chain_id == chain_id)
     if pays:  
         query = query.filter(models.Hotel.pays == pays)
     if zone:  
         query = query.filter(models.Hotel.zone == zone)
+    if classement:
+        query = query.filter(models.Hotel.classement == classement)
 
     #get all rooms that meet the basic criteria
     rooms = query.all()
 
     #filter rooms by availability
     available_rooms = []
-    for room in rooms:
-        if check_room_availability(db, room.room_id, start_date, end_date):
-            available_rooms.append(room)
+    for room_tuple in rooms:
+            chambre = room_tuple[0]
+            hotel = room_tuple[1]
+            
+            if check_room_availability(db, chambre.room_id, start_date, end_date):
+                # Construct a dictionary with all the properties you need
+                room_data = {
+                    "room_id": chambre.room_id,
+                    "prix": chambre.prix,
+                    "capacite": chambre.capacite,
+                    "superficie": chambre.superficie,
+                    "hotel_name": hotel.name,
+                    "pays": hotel.pays,
+                    "zone": hotel.zone,
+                    "classement": hotel.classement,
+                    "chain_id": hotel.chain_id 
+                }
+                available_rooms.append(room_data)
 
     return available_rooms
 
@@ -107,3 +125,16 @@ def get_rooms_by_zone(db: Session):
     query = text("SELECT * FROM Chambre_par_zone")
     result = db.execute(query).fetchall()
     return [row._asdict() for row in result]
+
+def delete_client(db: Session, client_id: int):
+    #find the client by ID and 
+    client = db.query(models.Client).filter(models.Client.client_id == client_id).first()
+    
+    #if client exists, delete it
+    if client:
+        db.delete(client)
+        db.commit()
+        return {"success": True, "message": f"Client with ID {client_id} deleted successfully"}
+    
+    #if client doesn't exist, return an error message
+    return {"success": False, "message": f"Client with ID {client_id} not found"}
