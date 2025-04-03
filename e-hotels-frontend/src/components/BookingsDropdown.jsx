@@ -53,7 +53,10 @@ const BookingsDropdown = ({ bookings, onUpdate }) => {
                   <strong>Status:</strong> {booking.status}
                 </p>
                 <p>
-                  <strong>Client SIN:</strong> {booking.client}
+                  <strong>Client SIN:</strong> {booking.client.NAS}
+                </p>
+                <p>
+                  <strong>Client Name:</strong> {booking.client.name}
                 </p>
 
                 {/* Show buttons only if status is "Réservé" */}

@@ -155,4 +155,27 @@ def get_clients(db: Session):
     return db.query(models.Client).all()
 
 def get_bookings(db: Session):
-    return db.query(models.Booking).all()
+    bookings = (
+        db.query(models.Booking, models.Client)
+        .join(models.Client, models.Booking.client_id == models.Client.client_id) 
+        .all()
+    )
+
+    # Convert objects to dictionaries
+    formatted_bookings = [
+        {
+            "booking_id": booking.Booking.booking_id,
+            "room_id": booking.Booking.room_id,
+            "entry_date": booking.Booking.entry_date.strftime("%Y-%m-%d"),
+            "leaving_date": booking.Booking.leaving_date.strftime("%Y-%m-%d"),
+            "status": booking.Booking.status,
+            "client": {
+                "client_id": booking.Client.client_id,
+                "name": booking.Client.nom_complet,
+                "NAS": booking.Client.NAS,
+            }
+        }
+        for booking in bookings
+    ]
+
+    return formatted_bookings
