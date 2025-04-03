@@ -333,7 +333,7 @@ export default function EmployeeBooking() {
                   <p>Pays: {room.pays}</p>
                   <p>Zone: {room.zone}</p>
                   <button className="bg-green-500 text-white p-2 rounded mt-2" onClick={() => bookRoom(room.room_id)}>
-                    Confirm Booking
+                    Confirm Payment and Booking
                   </button>
                 </div>
               ))}

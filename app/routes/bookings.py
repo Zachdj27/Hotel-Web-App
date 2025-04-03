@@ -19,7 +19,7 @@ def update_booking_status_api(booking_id: int, status: str, db: Session = Depend
     return updated_booking
 
 @router.get("/get-bookings")
-def get_bookings(db: Session):
+def get_bookings(db: Session = Depends(database.get_db)):
     try:
         return crud.get_bookings(db)
     except Exception as e:
