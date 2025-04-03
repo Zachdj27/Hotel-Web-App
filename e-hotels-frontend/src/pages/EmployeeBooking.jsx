@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import './clientBooking.css';  
 import MenuBar from "../components/MenuBar";
+import BookingsDropdown from "../components/BookingsDropdown";
 import "../components/menuBar.css"
 import { chains, zones, pays, classements } from './constants';
 
@@ -10,6 +11,7 @@ export default function EmployeeBooking() {
   const navigate = useNavigate();
   const [client_id, setClient_id] = useState("");
   const [clients, setClients] = useState([]);
+  const [bookings, setBookings] = useState([]);
   const bookingStatus = "Confirmé";
   const [searchParams, setSearchParams] = useState({
     start_date: "",
@@ -44,6 +46,9 @@ export default function EmployeeBooking() {
 
         const roomsByZoneData = await axios.get("http://127.0.0.1:8000/zones/available-rooms/");
         setRoomsByZone(roomsByZoneData.data);
+
+        const bookingsData = await axios.get("http://127.0.0.1:8000/bookings/get-bookings/");
+        setBookings(bookingsData.data);
 
       } catch (error) {
         console.error("Error fetching additional data", error);
@@ -164,6 +169,7 @@ export default function EmployeeBooking() {
       <div className="container">
         <h2 className="title">Create and Confirm a Booking</h2>
 {/* Show/Hide Sections Button */}
+    <BookingsDropdown bookings={bookings}/>
 <div className="toggle-section">
           <button onClick={() => setShowHotelCapacities(!showHotelCapacities)} className="toggle-button">
             {showHotelCapacities ? "Hide Hotel Capacities" : "Show Hotel Capacities"}
