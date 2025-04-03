@@ -9,6 +9,7 @@ import { chains, zones, pays, classements } from './constants';
 
 export default function EmployeeBooking() {
   const navigate = useNavigate();
+  const [employee_id, setEmployee_id] = useState("");
   const [client_id, setClient_id] = useState("");
   const [clients, setClients] = useState([]);
   const [bookings, setBookings] = useState([]);
@@ -34,7 +35,10 @@ export default function EmployeeBooking() {
   const [roomsByZone, setRoomsByZone] = useState([]);
 
   useEffect(() => {
-    console.log("useEffect is running");
+    const storedEmployeeId = localStorage.getItem("employee_id");
+    if (storedEmployeeId) {
+        setEmployee_id(storedEmployeeId);
+    }
 
     async function fetchData() {
       try {
@@ -140,12 +144,13 @@ export default function EmployeeBooking() {
   };
   
   const handleSignOut = () => {
+    localStorage.removeItem("employee_id");
     navigate("/");
   };
   
-  const deleteAccount = async (clientId) => {
+  const deleteAccount = async (employeeId) => {
     try {
-      const response = await axios.delete(`http://127.0.0.1:8000/clients/${clientId}`);
+      const response = await axios.delete(`http://127.0.0.1:8000/employees/${employeeId}`);
       
       if (response.data.success) {
         alert("Account deleted successfully");
@@ -163,7 +168,7 @@ export default function EmployeeBooking() {
   return (
     <div>
       <MenuBar
-        clientId={client_id} 
+        clientId={employee_id} 
         onDeleteAccount={deleteAccount} 
         onSignOut={handleSignOut}/>
       <div className="container">

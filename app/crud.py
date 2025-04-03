@@ -179,3 +179,17 @@ def get_bookings(db: Session):
     ]
 
     return formatted_bookings
+
+
+def delete_employee(db: Session, employee_id: int):
+    #find the client by ID and 
+    employee = db.query(models.Employee).filter(models.Employee.employee_id == employee_id).first()
+    
+    #if client exists, delete it
+    if employee:
+        db.delete(employee)
+        db.commit()
+        return {"success": True, "message": f"Client with ID {employee_id} deleted successfully"}
+    
+    #if client doesn't exist, return an error message
+    return {"success": False, "message": f"Client with ID {employee_id} not found"}
