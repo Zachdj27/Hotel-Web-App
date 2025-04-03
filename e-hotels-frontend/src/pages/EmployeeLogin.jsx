@@ -17,7 +17,7 @@ export default function ClientLogin() {
       
       if (response.data.success) {
         localStorage.setItem("employee_id", response.data.employee_id);
-        navigate("/client/booking"); 
+        navigate("/employee/booking"); 
       } else {
         setError("Invalid account information. Please try again.");
       }

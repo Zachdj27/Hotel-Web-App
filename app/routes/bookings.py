@@ -17,3 +17,10 @@ def update_booking_status_api(booking_id: int, status: str, db: Session = Depend
     if not updated_booking:
         raise HTTPException(status_code=404, detail="Booking not found")
     return updated_booking
+
+@router.get("/get-bookings")
+def get_bookings(db: Session):
+    try:
+        return crud.get_bookings(db)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))

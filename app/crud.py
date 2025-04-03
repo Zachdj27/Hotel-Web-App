@@ -150,3 +150,9 @@ def employee_login(db: Session, login_details: schemas.EmployeeLogin):
         return {"success": False, "employee_id": None}
 
     return {"success": True, "employee_id": employee.employee_id}
+
+def get_clients(db: Session):
+    return db.query(models.Client).all()
+
+def get_bookings(db: Session):
+    return db.query(models.Booking).all()

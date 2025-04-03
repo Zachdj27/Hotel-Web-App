@@ -24,3 +24,9 @@ def delete_client_endpoint(client_id: int, db: Session = Depends(database.get_db
     if not result["success"]:
         raise HTTPException(status_code=404, detail=result["message"])
     return result
+
+@router.get("/get-clients/")
+def get_clients(
+    db: Session = Depends(database.get_db)
+):
+    return {"clients": crud.get_clients(db)}

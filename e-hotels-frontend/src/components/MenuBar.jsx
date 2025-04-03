@@ -9,7 +9,6 @@ export default function MenuBar({ clientId, onDeleteAccount, onSignOut }) {
     <div className="menu-bar">
       <h1 className="menu-title">E-Hotels</h1>
       <div className="menu-buttons">
-        <button className="menu-button">Update Account</button>
         <button className="menu-button" onClick={handleDeleteAccount}>Delete Account</button>
         <button className="menu-button" onClick={onSignOut}>Sign Out</button>
       </div>
