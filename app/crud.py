@@ -18,6 +18,20 @@ def create_client(db: Session, client: schemas.ClientCreate):
     db.refresh(db_client)
     return {"successCreation": True, "client": db_client}
 
+def create_employee(db: Session, employee: schemas.EmployeeCreate):
+    db_employee = models.Employee(
+        nas=employee.nas,
+        nom_complet=employee.nom_complet,
+        adresse=employee.adresse,
+        password=employee.password,
+        poste= employee.poste,
+        hotel_id=employee.hotel_id
+    )
+    db.add(db_employee)
+    db.commit()
+    db.refresh(db_employee)
+    return {"successCreation": True, "employee": db_employee}
+
 def update_client(db: Session, client: schemas.ClientCreate):
     db_client = models.Client(
         NAS=client.NAS,
