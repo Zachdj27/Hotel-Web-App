@@ -1,3 +1,11 @@
+-- Insert an employee
+INSERT INTO Employee (hotel_id, NAS, nom_complet, adresse, poste, password)
+VALUES (1, '300355543', 'John Doe', '123 Main St', 'Manager', 'motDePasse');
+
+-- Insert a client
+INSERT INTO Client (NAS, nom_complet, adresse, password)
+VALUES ('300355345', 'Jane Smith', '456 Oak Ave', 'Password');
+
 -- Hotel Chains 
 INSERT INTO Chaine_hoteliere (chain_id, name, adresse_bureau, nombre_hotels, email)
 VALUES
