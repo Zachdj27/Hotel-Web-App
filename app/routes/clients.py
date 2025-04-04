@@ -30,3 +30,14 @@ def get_clients(
     db: Session = Depends(database.get_db)
 ):
     return {"clients": crud.get_clients(db)}
+
+@router.put("/update/{client_id}")
+def update_client_endpoint(client_id: int, client_data: schemas.ClientUpdate, db: Session = Depends(database.get_db)):
+    result = crud.update_client(db, client_id, client_data)
+    if not result["success"]:
+        raise HTTPException(status_code=404, detail=result["message"])
+    return result
+
+@router.get("/get-client/{client_id}")
+def get_client_by_id(client_id: int, db: Session = Depends(database.get_db)):
+    return crud.get_client(db, client_id)

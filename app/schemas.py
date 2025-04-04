@@ -70,6 +70,14 @@ class ClientResponse(ClientBase):
     class Config:
         from_attributes = True
 
+class ClientUpdate(BaseModel):
+    nom_complet: Optional[str] = None
+    adresse: Optional[str] = None
+    password: Optional[str] = None
+
+    class Config:
+        orm_mode = True
+
 class RoomBase(BaseModel):
     numero_chambre: str
     prix: float
@@ -90,10 +98,11 @@ class HotelCapacity(BaseModel):
     hotel_id: int
     name: str
     capacite_total_disponible: int
-
 class RoomsByZone(BaseModel):
     zone: str
     nombre_chambres_disponibles: int
+    
+
     
 class ClientLogin(BaseModel):
     NAS: str

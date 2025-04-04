@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./auth.css";
 
-export default function ClientLogin() {
+export default function EmployeeLogin() {
   const [nas, setNas] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -29,7 +29,7 @@ export default function ClientLogin() {
 
   return (
     <div className="auth-container">
-      <h2>Client Login</h2>
+      <h2>Employee Login</h2>
       <form onSubmit={handleLogin}>
         <input 
           type="number" 
@@ -48,8 +48,8 @@ export default function ClientLogin() {
         <button type="submit">Login</button>
       </form>
       {error && <p className="error">{error}</p>}
-      <p className="test-accounts">Test Client Account: NAS: 300355543, Mot de Passe: motDePasse</p>
-      <p>Don't have an account? <a href="/client-register">Create one</a></p>
+      <p className="test-accounts">Test Employee Account: NAS: 300355543, Mot de Passe: motDePasse</p>
+      <p>Don't have an account? <a href="/employee-register">Create one</a></p>
     </div>
   );
 }

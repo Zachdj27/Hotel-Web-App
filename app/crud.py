@@ -18,6 +18,20 @@ def create_client(db: Session, client: schemas.ClientCreate):
     db.refresh(db_client)
     return {"successCreation": True, "client": db_client}
 
+def update_client(db: Session, client: schemas.ClientCreate):
+    db_client = models.Client(
+        NAS=client.NAS,
+        nom_complet=client.nom_complet,
+        adresse=client.adresse,
+        password=client.password,
+        date_enregistrement=date.today()  #today
+    )
+    db.add(db_client)
+    db.commit()
+    db.refresh(db_client)
+    return {"successCreation": True, "client": db_client}
+
+
 def client_login(db: Session, login_details: schemas.ClientLogin):
     client = db.query(models.Client).filter(
         models.Client.NAS == login_details.NAS,
@@ -193,3 +207,24 @@ def delete_employee(db: Session, employee_id: int):
     
     #if client doesn't exist, return an error message
     return {"success": False, "message": f"Client with ID {employee_id} not found"}
+
+def update_client(db: Session, client_id: int, client_data: schemas.ClientUpdate):
+    db_client = db.query(models.Client).filter(models.Client.client_id == client_id).first()
+    
+    if not db_client:
+        return {"success": False, "message": "Client not found"}
+    
+    if client_data.nom_complet is not None:
+        db_client.nom_complet = client_data.nom_complet
+    if client_data.adresse is not None:
+        db_client.adresse = client_data.adresse
+    if client_data.password is not None:
+        db_client.password = client_data.password
+    
+    try:
+        db.commit()
+        db.refresh(db_client)
+        return {"success": True, "client": db_client}
+    except Exception as e:
+        db.rollback()
+        return {"success": False, "message": str(e)}

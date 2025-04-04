@@ -6,6 +6,8 @@ import ClientLogin from "./pages/ClientLogin";
 import ClientBooking from "./pages/ClientBooking";
 import ClientRegister from "./pages/ClientRegister";
 import EmployeeBooking from "./pages/EmployeeBooking";
+import EmployeeRegister from "./pages/EmployeeRegister";
+import ClientUpdate from "./pages/ClientUpdate";
 
 function App() {
   return(
@@ -17,6 +19,8 @@ function App() {
         <Route path="/client/booking" element={<ClientBooking />} />
         <Route path="/client-register" element={<ClientRegister />} />
         <Route path="/employee/booking" element={<EmployeeBooking />} />
+        <Route path="/employee-register" element={<EmployeeRegister />} />
+        <Route path="/client-update" element={<ClientUpdate />} />
       </Routes>
     </Router>
   )

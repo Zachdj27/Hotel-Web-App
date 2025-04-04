@@ -25,7 +25,13 @@ def delete_employee_endpoint(employee_id: int, db: Session = Depends(database.ge
         raise HTTPException(status_code=404, detail=result["message"])
     return result
 
-
+@router.post("/create-account")
+def create_employee(employee: schemas.EmployeeCreate, db: Session = Depends(database.get_db)):
+    try:
+        return crud.create_employee(db, employee)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    
 # @router.delete("/{client_id}")
 # def delete_client_endpoint(client_id: int, db: Session = Depends(database.get_db)):
 #     result = crud.delete_client(db, client_id)

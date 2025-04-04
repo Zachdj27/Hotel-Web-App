@@ -132,6 +132,10 @@ export default function ClientBooking() {
     localStorage.removeItem("client_id");
     navigate("/");
   };
+
+  const handleUpdate = () => {
+    navigate("/client-update");
+  };
   
   const deleteAccount = async (clientId) => {
     try {
@@ -155,7 +159,8 @@ export default function ClientBooking() {
       <MenuBar
         clientId={clientId} 
         onDeleteAccount={deleteAccount} 
-        onSignOut={handleSignOut}/>
+        onSignOut={handleSignOut}
+        handleUpdate={handleUpdate}/>
       <div className="container">
         <h2 className="title">Search for Available Rooms</h2>
 {/* Show/Hide Sections Button */}
