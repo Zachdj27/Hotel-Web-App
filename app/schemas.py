@@ -110,3 +110,13 @@ class ClientLogin(BaseModel):
 class EmployeeLogin(BaseModel):
     nas: str
     password: str
+
+class EmployeeUpdate(BaseModel):
+    nas: Optional[str] = None
+    nom_complet: Optional[str] = None
+    adresse: Optional[str] = None
+    poste: Optional[str] = None
+    password: Optional[str] = None
+
+    class Config:
+        orm_mode = True

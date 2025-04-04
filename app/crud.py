@@ -47,6 +47,10 @@ def client_login(db: Session, login_details: schemas.ClientLogin):
 def get_client(db: Session, client_id: int):
     return db.query(models.Client).filter(models.Client.client_id == client_id).first()
 
+def get_employee(db: Session, employee_id: int):
+    return db.query(models.Employee).filter(models.Employee.employee_id == employee_id).first()
+
+
 def get_available_rooms(
     db: Session,
     start_date: str,
@@ -78,7 +82,7 @@ def get_available_rooms(
     if zone:  
         query = query.filter(models.Hotel.zone == zone)
     if classement:
-        query = query.filter(models.Hotel.classement == classement)
+        query = query.filter(models.Hotel.classement >= classement)
 
     #get all rooms that meet the basic criteria
     rooms = query.all()
@@ -225,6 +229,32 @@ def update_client(db: Session, client_id: int, client_data: schemas.ClientUpdate
         db.commit()
         db.refresh(db_client)
         return {"success": True, "client": db_client}
+    except Exception as e:
+        db.rollback()
+        return {"success": False, "message": str(e)}
+ 
+ 
+def update_employee(db: Session, employee_id: int, employee_data: schemas.EmployeeUpdate):
+    db_employee = db.query(models.Employee).filter(models.Employee.employee_id == employee_id).first()
+    
+    if not db_employee:
+        return {"success": False, "message": "Employee not found"}
+    
+    if employee_data.nas is not None:
+        db_employee.nas = employee_data.nas
+    if employee_data.nom_complet is not None:
+        db_employee.nom_complet = employee_data.nom_complet
+    if employee_data.adresse is not None:
+        db_employee.adresse = employee_data.adresse
+    if employee_data.poste is not None:
+        db_employee.poste = employee_data.poste
+    if employee_data.password is not None:
+        db_employee.password = employee_data.password
+    
+    try:
+        db.commit()
+        db.refresh(db_employee)
+        return {"success": True, "employee": db_employee}
     except Exception as e:
         db.rollback()
         return {"success": False, "message": str(e)}

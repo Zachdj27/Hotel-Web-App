@@ -23,6 +23,7 @@ export default function ClientUpdate() {
 
   useEffect(() => {
     const storedClientId = localStorage.getItem("client_id");
+    console.log(storedClientId);
     if (!storedClientId) {
       navigate("/");
       return;
@@ -104,6 +105,8 @@ export default function ClientUpdate() {
           password: ""
         });
         setConfirmPassword("");
+        alert("Information updated successfully.");
+        navigate("/client/booking");
       } else {
         setError("Failed to update profile. Please try again.");
       }
@@ -120,21 +123,20 @@ export default function ClientUpdate() {
     navigate("/");
   };
   
-  const deleteAccount = async () => {
-    if (window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
-      try {
-        const response = await axios.delete(`http://127.0.0.1:8000/clients/${clientId}`);
-        
-        if (response.data.success) {
-          alert("Your account has been deleted successfully");
-          handleSignOut();
-        } else {
-          alert("Failed to delete account");
-        }
-      } catch (error) {
-        console.error("Error deleting account", error);
-        alert("Error deleting account");
+  const deleteAccount = async (clientId) => {
+    try {
+      const response = await axios.delete(`http://127.0.0.1:8000/clients/${clientId}`);
+      
+      if (response.data.success) {
+        alert("Account deleted successfully");
+
+        handleSignOut();
+      } else {
+        alert("Failed to delete account");
       }
+    } catch (error) {
+      console.error("Error deleting account", error);
+      alert("Error deleting account");
     }
   };
 
@@ -244,17 +246,6 @@ export default function ClientUpdate() {
             
             {error && <p className="error-message">{error}</p>}
             {success && <p className="success-message">{success}</p>}
-            
-            <div className="danger-zone">
-              <h3>Account Management</h3>
-              <button 
-                className="delete-account-button"
-                onClick={deleteAccount}
-              >
-                Delete My Account
-              </button>
-              <p className="warning-text">Warning: Deleting your account is permanent and cannot be undone.</p>
-            </div>
           </div>
         )}
       </div>

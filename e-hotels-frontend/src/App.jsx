@@ -8,6 +8,7 @@ import ClientRegister from "./pages/ClientRegister";
 import EmployeeBooking from "./pages/EmployeeBooking";
 import EmployeeRegister from "./pages/EmployeeRegister";
 import ClientUpdate from "./pages/ClientUpdate";
+import EmployeeUpdate from "./pages/EmployeeUpdate";
 
 function App() {
   return(
@@ -21,6 +22,7 @@ function App() {
         <Route path="/employee/booking" element={<EmployeeBooking />} />
         <Route path="/employee-register" element={<EmployeeRegister />} />
         <Route path="/client-update" element={<ClientUpdate />} />
+        <Route path="/employee-update" element={<EmployeeUpdate />} />
       </Routes>
     </Router>
   )

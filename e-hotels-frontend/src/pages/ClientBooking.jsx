@@ -283,7 +283,7 @@ export default function ClientBooking() {
 
           <select 
             name="classement" 
-            value={searchParams.zone} 
+            value={searchParams.classement}
             onChange={handleChange} 
             className="input-field"
           >

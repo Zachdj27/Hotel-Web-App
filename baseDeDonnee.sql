@@ -110,8 +110,10 @@ EXECUTE FUNCTION check_room_availability();
 CREATE OR REPLACE FUNCTION convert_booking_to_location()
 RETURNS TRIGGER AS $$
 BEGIN
-    INSERT INTO Location (booking_id, client_id, l_date)
-    VALUES (NEW.booking_id, NEW.client_id, CURRENT_DATE);
+    IF NEW.client_id IS NOT NULL THEN
+        INSERT INTO Location (booking_id, client_id, l_date)
+        VALUES (NEW.booking_id, NEW.client_id, CURRENT_DATE);
+    END IF;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;

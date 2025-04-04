@@ -147,6 +147,9 @@ export default function EmployeeBooking() {
     localStorage.removeItem("employee_id");
     navigate("/");
   };
+  const handleUpdate = () => {
+    navigate("/employee-update");
+  };
   
   const deleteAccount = async (employeeId) => {
     try {
@@ -170,7 +173,8 @@ export default function EmployeeBooking() {
       <MenuBar
         clientId={employee_id} 
         onDeleteAccount={deleteAccount} 
-        onSignOut={handleSignOut}/>
+        onSignOut={handleSignOut}
+        handleUpdate={handleUpdate}/>
       <div className="container">
         <h2 className="title">Create and Confirm a Booking</h2>
 {/* Show/Hide Sections Button */}
@@ -306,7 +310,7 @@ export default function EmployeeBooking() {
 
           <select 
             name="classement" 
-            value={searchParams.zone} 
+            value={searchParams.classement}
             onChange={handleChange} 
             className="input-field"
           >

@@ -52,7 +52,7 @@ export default function ClientRegister() {
 
   return (
     <div className="auth-container">
-      <h2>Client Login</h2>
+      <h2>Register Employee</h2>
       <form onSubmit={handleLogin}>
       <input 
         type="text" 

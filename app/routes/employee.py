@@ -32,6 +32,17 @@ def create_employee(employee: schemas.EmployeeCreate, db: Session = Depends(data
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     
+@router.put("/update/{employee_id}")
+def update_employee_endpoint(employee_id: int, employee_data: schemas.EmployeeUpdate, db: Session = Depends(database.get_db)):
+    result = crud.update_employee(db, employee_id, employee_data)
+    if not result["success"]:
+        raise HTTPException(status_code=404, detail=result["message"])
+    return result
+
+@router.get("/get-employee/{employee_id}")
+def get_employee_by_id(employee_id: int, db: Session = Depends(database.get_db)):
+    return crud.get_employee(db, employee_id)
+    
 # @router.delete("/{client_id}")
 # def delete_client_endpoint(client_id: int, db: Session = Depends(database.get_db)):
 #     result = crud.delete_client(db, client_id)
